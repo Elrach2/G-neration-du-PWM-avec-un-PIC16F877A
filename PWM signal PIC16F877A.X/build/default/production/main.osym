@@ -1,0 +1,46 @@
+_RETURN_
+CCP_1
+CCP_1_LOW
+CCP_1_HIGH
+CCP_2
+CCP_2_LOW
+CCP_2_HIGH
+PSP_DATA
+C1OUT
+C2OUT
+PR2
+CCPR1L
+CCP1CON
+TRISC
+T2CON
+
+Project Directory:
+    C:\Users\RACHID\Desktop\Proteus\PIC Projets\PWM signal PIC16F877A\PWM signal PIC16F877A.X\
+
+Project Files:
+    main.c                                                  [18-janv.-26 01:17  CRC=4CC0E765]
+    ..\..\..\..\..\..\..\Program Files (x86)\PICC\devices\16F877A.h [21-oct.-22 11:02  CRC=6A06E202]
+
+Source signature=20CEAB69
+
+Units:
+    C:\Users\RACHID\Desktop\Proteus\PIC Projets\PWM signal PIC16F877A\PWM signal PIC16F877A.X\main
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    Output file:    Relocatable
+    Compile Mode:   CCS5
+    Predefined symbols:
+       #define __16F877A 1
+
+Output Files:
+    XREF file:   build\default\production\main.xsym
+    Errors:      build\default\production\main.err
+    Ext Symbols: build\default\production\main.esym
+    Object:      build\default\production\main.o
+    Symbols:     build\default\production\main.osym
