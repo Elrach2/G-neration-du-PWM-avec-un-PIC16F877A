@@ -1,8 +1,8 @@
-CCS PCM C Compiler, Version 5.112, 5967               19-janv.-26 22:49
+CCS PCM C Compiler, Version 5.112, 5967               20-janv.-26 10:31
 
-               Filename:   C:\Users\RACHID\Desktop\Proteus\PIC Projets\PWM signal PIC16F877A\PWM signal PIC16F877A.X\dist\default\production\PWM_signal_PIC16F877A.X.production.lst
+               Filename:   C:\Users\RACHID\Desktop\Proteus\PIC Projets\PWM signal PIC16F877A\PWM signal PIC16F877A.X\dist\default\debug\PWM_signal_PIC16F877A.X.debug.lst
 
-               ROM used:   505 words (6%)
+               ROM used:   500 words (6%)
                            Largest free fragment is 2048
                RAM used:   10 (3%) at main() level
                            37 (10%) worst case
@@ -14,7 +14,7 @@ CCS PCM C Compiler, Version 5.112, 5967               19-janv.-26 22:49
 0001:  MOVWF  0A
 0002:  GOTO   1B2
 0003:  NOP
-.................... #import(file="build/default/production/main.o")
+.................... #import(file="build/default/debug/main.o")
 .................... #include <16F877A.h>
 .................... #include <16F877A.h>
 .................... //////////// Standard Header file for the PIC16F877A device ////////////////
@@ -255,70 +255,65 @@ CCS PCM C Compiler, Version 5.112, 5967               19-janv.-26 22:49
 ....................     
 ....................     while(1) {
 ....................         // Fade in (0% à 100%)
-....................         for(percent = 0; percent <= 100; percent+=20) {
+....................         for(percent = 0; percent <= 100; percent++) {
 01CA:  CLRF   23
 01CB:  MOVF   23,W
 01CC:  SUBLW  64
 01CD:  BTFSS  03.0
-01CE:  GOTO   1DC
+01CE:  GOTO   1D7
 ....................             pwm_set_duty_percent(percent);
 01CF:  MOVF   23,W
 01D0:  MOVWF  24
 01D1:  CALL   111
-....................             delay_ms(1000);
-01D2:  MOVLW  04
-01D3:  MOVWF  24
-01D4:  MOVLW  FA
-01D5:  MOVWF  25
-01D6:  CALL   19D
-01D7:  DECFSZ 24,F
-01D8:  GOTO   1D4
-01D9:  MOVLW  14
-01DA:  ADDWF  23,F
-01DB:  GOTO   1CB
+....................             delay_ms(20);
+01D2:  MOVLW  14
+01D3:  MOVWF  25
+01D4:  CALL   19D
+01D5:  INCF   23,F
+01D6:  GOTO   1CB
 ....................         }
 ....................         
 ....................         delay_ms(500);
-01DC:  MOVLW  02
-01DD:  MOVWF  24
-01DE:  MOVLW  FA
-01DF:  MOVWF  25
-01E0:  CALL   19D
-01E1:  DECFSZ 24,F
-01E2:  GOTO   1DE
+01D7:  MOVLW  02
+01D8:  MOVWF  24
+01D9:  MOVLW  FA
+01DA:  MOVWF  25
+01DB:  CALL   19D
+01DC:  DECFSZ 24,F
+01DD:  GOTO   1D9
 ....................         
 ....................         // Fade out (100% à 0%)
 ....................         for(percent = 100; percent > 0; percent--) {
-01E3:  MOVLW  64
-01E4:  MOVWF  23
-01E5:  MOVF   23,F
-01E6:  BTFSC  03.2
-01E7:  GOTO   1F0
+01DE:  MOVLW  64
+01DF:  MOVWF  23
+01E0:  MOVF   23,F
+01E1:  BTFSC  03.2
+01E2:  GOTO   1EB
 ....................             pwm_set_duty_percent(percent);
-01E8:  MOVF   23,W
-01E9:  MOVWF  24
-01EA:  CALL   111
+01E3:  MOVF   23,W
+01E4:  MOVWF  24
+01E5:  CALL   111
 ....................             delay_ms(20);
-01EB:  MOVLW  14
-01EC:  MOVWF  25
-01ED:  CALL   19D
-01EE:  DECF   23,F
-01EF:  GOTO   1E5
+01E6:  MOVLW  14
+01E7:  MOVWF  25
+01E8:  CALL   19D
+01E9:  DECF   23,F
+01EA:  GOTO   1E0
 ....................         }
 ....................         
 ....................         delay_ms(500);
-01F0:  MOVLW  02
-01F1:  MOVWF  24
-01F2:  MOVLW  FA
-01F3:  MOVWF  25
-01F4:  CALL   19D
-01F5:  DECFSZ 24,F
-01F6:  GOTO   1F2
-01F7:  GOTO   1CA
+01EB:  MOVLW  02
+01EC:  MOVWF  24
+01ED:  MOVLW  FA
+01EE:  MOVWF  25
+01EF:  CALL   19D
+01F0:  DECFSZ 24,F
+01F1:  GOTO   1ED
+01F2:  GOTO   1CA
 ....................     }
 .................... }
 .................... 
-01F8:  SLEEP
+01F3:  SLEEP
 .................... /*************** Fonctions PWM ***************/
 .................... 
 .................... /*

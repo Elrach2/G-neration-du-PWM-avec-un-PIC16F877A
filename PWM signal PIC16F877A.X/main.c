@@ -1,29 +1,172 @@
-#include "16F877A.h"
-#fuses HS, NOWDT, NOPROTECT, NOLVP
-#use delay(clock=16MHz)
+#include <16F877A.h>
+#device ADC=16
+#fuses HS, NOWDT, NOPUT, NOPROTECT, NOLVP
+#use delay(clock=16000000)
 
-/*  Déclaration des régistres de nécessaire à la génération du PWM  */
-#byte PR2 =	0x92
-#byte CCPR1L =	0x15 
-#byte CCP1CON =	0x17
-#byte TRISC =	0x87
-#byte T2CON =	0x12
+/* 
+ * Gestion PWM selon datasheet PIC16F877A
+ * CCP1 (RC2) en mode PWM
+ */
 
+/*************** Définitions des registres ***************/
+#byte PR2 = 0x92
+#byte T2CON = 0x12
+#byte CCPR1L = 0x15
+#byte CCP1CON = 0x17
+#byte TRISC = 0x87
+#byte TMR2 = 0x11
+#byte PIR1 = 0x0C
 
-void main (void){
-   PR2 = 99;                //Permet de fixé la période du PWM avec l formule suivante | PWM Duty Cycle = (CCPR1L:CCP1CON<5:4>) •TOSC • (TMR2 Prescale Value) |
-   TRISC = 0xfb;            //Configuration de RC2/CCP1 en sortie 
-   T2CON = 0x05;            //Activation du TMR2 avec un Prescale de 4 (T2CON = 0b00000101)
-   CCPR1L = 0b00011000;     //Registre contenant les 8 bits de poid fort des 10 bits de résolution (MSB) 
-   CCP1CON = 0b00111100;    //Registre contenant les 2 bits de poid faible des 10 bits de résolution (LSB) qui corespondent au bit 5 et 4. Les bits 3 et 2 doivent toujours être a 1 pour que le PWM fonctionne
-   while (1) {
-       
+/*************** Prototypes ***************/
+void pwm_init(unsigned int16 pwm_frequency, unsigned int8 prescaler);
+void pwm_set_duty_(unsigned int16 duty_value);
+void pwm_set_duty_percent(unsigned int8 percent);
+unsigned int16 calculate_pr2(unsigned int16 frequency, unsigned int8 prescaler);
+
+/*************** Variables globales ***************/
+unsigned int16 max_duty_value = 0;
+
+/*************** Fonction principale ***************/
+void main(void) {
+    unsigned int8 percent;
+    
+    // Initialisation PWM à 1kHz avec prescaler = 4
+    pwm_init(1000, 4);
+    
+    while(1) {
+        // Fade in (0% à 100%)
+        for(percent = 0; percent <= 100; percent++) {
+            pwm_set_duty_percent(percent);
+            delay_ms(20);
+        }
+        
+        delay_ms(500);
+        
+        // Fade out (100% à 0%)
+        for(percent = 100; percent > 0; percent--) {
+            pwm_set_duty_percent(percent);
+            delay_ms(20);
+        }
+        
+        delay_ms(500);
     }
+}
 
+/*************** Fonctions PWM ***************/
+
+/*
+ * Initialise le module PWM
+ */
+void pwm_init(unsigned int16 pwm_frequency, unsigned int8 prescaler) {
+    unsigned int8 t2con_value;
+    unsigned int16 pr2_value;
+    
+    // 1. Configurer le prescaler
+    switch(prescaler) {
+        case 1:
+            t2con_value = 0b00000100;  // T2CKPS = 00
+            break;
+        case 4:
+            t2con_value = 0b00000101;  // T2CKPS = 01
+            break;
+        case 16:
+            t2con_value = 0b00000111;  // T2CKPS = 1x
+            break;
+        default:
+            t2con_value = 0b00000101;  // Par défaut prescaler = 4
+            prescaler = 4;
+    }
+    
+    // 2. Calculer PR2
+    pr2_value = calculate_pr2(pwm_frequency, prescaler);
+    
+    // 3. Désactiver le Timer2 pendant la configuration
+    T2CON = 0;
+    
+    // 4. Configurer la broche RC2/CCP1 comme sortie
+    output_bit(PIN_C2, 0);
+    TRISC = 0b11111011;
+    
+    // 5. Écrire la valeur de PR2
+    PR2 = (unsigned int8)pr2_value;
+    
+    // 6. Initialiser les registres PWM à 0%
+    CCPR1L = 0;
+    CCP1CON = 0b00001100;  // Mode PWM, bits DC1B = 00
+    
+    // 7. Calculer la valeur maximale du duty cycle
+    max_duty_value = (pr2_value + 1) * 4;
+    
+    // 8. Activer le Timer2 avec le prescaler choisi
+    T2CON = t2con_value | 0b00000100;  // TMR2ON = 1
+    
+    // 9. Attendre que le Timer2 déborde
+    while(!(PIR1 & 0x02));  // Attendre TMR2IF = 1
+    PIR1 &= ~0x02;          // Effacer le flag
 }
 
 /*
- *	1) Ecrir un fonction qui nous permet de varier la duty cycle qui correspond a ? dans nos calcul sur papier
- * 	2) Résoudre le problème de résolution. Nous avons 10 bits donc une valeur entre 0 et 1023 mais calculant la résolution après avoir choisit la fréquence de PWM on a: soit une résolution > 10 bits, soit une résolution < 10 bits 
- *	   Que se passe t il réellement si la résolution est différent des 10 bits ?????
+ * Calcule la valeur de PR2 pour une fréquence donnée
  */
+unsigned int16 calculate_pr2(unsigned int16 frequency, unsigned int8 prescaler) {
+    unsigned int32 pr2_calc;
+    
+    // Formule: PR2 = [Fosc / (4 * prescaler * Fpwm)] - 1
+    pr2_calc = (16000000UL / (4UL * prescaler * frequency)) - 1;
+    
+    // Limiter à 255 (maximum pour un registre 8 bits)
+    if(pr2_calc > 255) {
+        pr2_calc = 255;
+    }
+    
+    // Vérifier la valeur minimale
+    if(pr2_calc < 1) {
+        pr2_calc = 1;
+    }
+    
+    return (unsigned int16)pr2_calc;
+}
+
+/*
+ * Définit le duty cycle avec une valeur brute (0-1023)
+ */
+void pwm_set_duty_(unsigned int16 duty_value) {
+    unsigned int8 dc1b;
+    
+    // Limiter la valeur au maximum permis
+    if(duty_value > max_duty_value) {
+        duty_value = max_duty_value;
+    }
+    
+    // Limiter à 1023 (10 bits max)
+    if(duty_value > 1023) {
+        duty_value = 1023;
+    }
+    
+    // Écrire les 8 bits MSB dans CCPR1L
+    CCPR1L = (duty_value >> 2) & 0xFF;
+    
+    // Écrire les 2 bits LSB dans CCP1CON<5:4>
+    dc1b = duty_value & 0x03;
+    
+    // Mettre à jour CCP1CON
+    CCP1CON = 0x0C | (dc1b << 4);
+}
+
+/*
+ * Définit le duty cycle en pourcentage (0-100%)
+ */
+void pwm_set_duty_percent(unsigned int8 percent) {
+    unsigned int16 duty_val;
+    
+    // Limiter le pourcentage
+    if(percent > 100) {
+        percent = 100;
+    }
+    
+    // Convertir pourcentage en valeur
+    duty_val = ((unsigned int32)percent * max_duty_value) / 100;
+    
+    // Appliquer la valeur
+    pwm_set_duty_(duty_val);
+}

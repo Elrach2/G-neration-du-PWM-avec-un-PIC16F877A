@@ -22,10 +22,10 @@ Project Directory:
     C:\Users\RACHID\Desktop\Proteus\PIC Projets\PWM signal PIC16F877A\PWM signal PIC16F877A.X\
 
 Project Files:
-    main.c                                                  [19-janv.-26 22:49  CRC=993694D5]
+    main.c                                                  [20-janv.-26 10:31  CRC=8734B805]
     ..\..\..\..\..\..\..\Program Files (x86)\PICC\devices\16F877A.h [21-oct.-22 11:02  CRC=6A06E202]
 
-Source signature=6D4458D9
+Source signature=5B427C09
 
 Units:
     C:\Users\RACHID\Desktop\Proteus\PIC Projets\PWM signal PIC16F877A\PWM signal PIC16F877A.X\main
@@ -43,8 +43,8 @@ Compiler Settings:
        #define __16F877A 1
 
 Output Files:
-    XREF file:   build\default\production\main.xsym
-    Errors:      build\default\production\main.err
-    Ext Symbols: build\default\production\main.esym
-    Object:      build\default\production\main.o
-    Symbols:     build\default\production\main.osym
+    XREF file:   build\default\debug\main.xsym
+    Errors:      build\default\debug\main.err
+    Ext Symbols: build\default\debug\main.esym
+    Object:      build\default\debug\main.o
+    Symbols:     build\default\debug\main.osym

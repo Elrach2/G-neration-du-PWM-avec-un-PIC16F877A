@@ -96,11 +96,11 @@ ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	${MKDIR} ${OBJECTDIR} 
 ifeq (2,1) 
 	${MKDIR} ${DISTDIR} 
-	${MP_CC}  out="${OBJECTDIR}"  main.c +FM +EX +DF +CC #__DEBUG=1 +ICD +Y=9 +EA +DF +LN +T +A +M +J +Z -P #__16F877A=1 
+	${MP_CC}  out="${OBJECTDIR}"  main.c +FM +EX +DF +CC +Y=9 +EA +DF +LN +T +A +M +J +Z -P #__16F877A=1 
 	@mv ${OBJECTDIR}/main.cof "${DISTDIR}/PWM_signal_PIC16F877A.X.${IMAGE_TYPE}.cof" 
 	@mv ${OBJECTDIR}/main.hex "${DISTDIR}/PWM_signal_PIC16F877A.X.${IMAGE_TYPE}.hex"
 else 
-	${MP_CC}  out=""${OBJECTDIR}"" main.c +EXPORT +FM +EX +DF +CC #__DEBUG=1 +ICD +Y=9 +EA +DF +LN +T +A +M +J +Z -P #__16F877A=1 +EXPORTD="${OBJECTDIR}"  
+	${MP_CC}  out=""${OBJECTDIR}"" main.c +EXPORT +FM +EX +DF +CC +Y=9 +EA +DF +LN +T +A +M +J +Z -P #__16F877A=1 +EXPORTD="${OBJECTDIR}"  
 	
 endif 
 	

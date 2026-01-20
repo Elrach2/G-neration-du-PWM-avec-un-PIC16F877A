@@ -86,12 +86,12 @@ Project Directory:
     C:\Users\RACHID\Desktop\Proteus\PIC Projets\PWM signal PIC16F877A\PWM signal PIC16F877A.X\
 
 Project Files:
-    main.c (link)                                           [19-janv.-26 22:49  CRC=993694D5]
+    main.c (link)                                           [20-janv.-26 10:31  CRC=8734B805]
     ..\..\..\..\..\..\..\Program Files (x86)\PICC\devices\16F877A.h [21-oct.-22 11:02  CRC=6A06E202]
 
-Source signature=6D4458D9
+Source signature=5B427C09
 Program memory checksum=0000
-Hex file CRC=D182
+Hex file CRC=0649
 
 Units:
     C:\Users\RACHID\Desktop\Proteus\PIC Projets\PWM signal PIC16F877A\PWM signal PIC16F877A.X\main
@@ -106,13 +106,13 @@ Compiler Settings:
     Compile Mode:   CCS5
 
 Output Files:
-    XREF file:   dist\default\production\PWM_signal_PIC16F877A.xsym
-    Errors:      dist\default\production\PWM_signal_PIC16F877A.X.production.err
-    Ext Symbols: dist\default\production\PWM_signal_PIC16F877A.X.production.esym
-    INHX8:       dist\default\production\PWM_signal_PIC16F877A.X.production.hex
-    Symbols:     dist\default\production\PWM_signal_PIC16F877A.X.production.sym
-    List:        dist\default\production\PWM_signal_PIC16F877A.X.production.lst
-    Debug/COFF:  dist\default\production\PWM_signal_PIC16F877A.X.production.cof
-    Project:     PWM_signal_PIC16F877A.X.production.ccspjt
-    Call Tree:   dist\default\production\PWM_signal_PIC16F877A.X.production.tre
-    Statistics:  dist\default\production\PWM_signal_PIC16F877A.X.production.STA
+    XREF file:   dist\default\debug\PWM_signal_PIC16F877A.xsym
+    Errors:      dist\default\debug\PWM_signal_PIC16F877A.X.debug.err
+    Ext Symbols: dist\default\debug\PWM_signal_PIC16F877A.X.debug.esym
+    INHX8:       dist\default\debug\PWM_signal_PIC16F877A.X.debug.hex
+    Symbols:     dist\default\debug\PWM_signal_PIC16F877A.X.debug.sym
+    List:        dist\default\debug\PWM_signal_PIC16F877A.X.debug.lst
+    Debug/COFF:  dist\default\debug\PWM_signal_PIC16F877A.X.debug.cof
+    Project:     PWM_signal_PIC16F877A.X.debug.ccspjt
+    Call Tree:   dist\default\debug\PWM_signal_PIC16F877A.X.debug.tre
+    Statistics:  dist\default\debug\PWM_signal_PIC16F877A.X.debug.STA

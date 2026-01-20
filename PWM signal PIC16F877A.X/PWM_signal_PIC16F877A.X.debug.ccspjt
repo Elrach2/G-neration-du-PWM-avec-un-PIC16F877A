@@ -1,0 +1,15 @@
+[PROJECT]
+Target=dist\default\debug\PWM_signal_PIC16F877A.X.debug.hex
+Processor_Text=PIC16F877A
+CCSVersion=5.112
+Compiler=PCM
+[Target Data]
+FileList=$linker.c
+[dist\default\debug\PWM_signal_PIC16F877A.X.debug.c]
+Type=4
+[mru-list]
+1=dist\default\debug\PWM_signal_PIC16F877A.X.debug.c
+[Units]
+Count=1
+1=main
+Link=1
